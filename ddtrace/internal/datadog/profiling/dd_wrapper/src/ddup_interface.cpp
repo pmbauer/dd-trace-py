@@ -8,6 +8,8 @@
 #include "uploader.hpp"
 #include "uploader_builder.hpp"
 
+#include "antithesis_instrumentation.h"
+
 #include <iostream>
 #include <string_view>
 #include <unordered_map>

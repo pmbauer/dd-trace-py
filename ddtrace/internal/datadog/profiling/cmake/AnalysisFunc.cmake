@@ -10,12 +10,16 @@ function(add_ddup_config target)
         ${target}
         PRIVATE "$<$<CONFIG:Release>:-Os>"
                 -ffunction-sections
+                -flto=thin
                 -Wall
                 -Werror
                 -Wextra
                 -Wshadow
                 -Wnon-virtual-dtor
-                -Wold-style-cast)
+                -Wold-style-cast
+                -std=c++20
+                -fsanitize-coverage=trace-pc-guard
+                -g)
 
     if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         # macOS-specific options
@@ -40,7 +44,11 @@ function(add_ddup_config target)
             -Wl,-Bsymbolic-functions
             -Wl,--gc-sections
             -Wl,-z,nodelete
-            -Wl,--exclude-libs,ALL)
+            -Wl,--exclude-libs,ALL
+            -flto=thin
+            -fsanitize-coverage=trace-pc-guard
+            -g
+            -Wl,--build-id)
     endif()
 
     # If we can IPO, then do so.
